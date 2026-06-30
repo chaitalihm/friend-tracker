@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Keep in Touch — demo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+.kt-wrap{width:100%;display:flex;justify-content:center;}
+.kt-fit{width:920px;transform-origin:top left;}
+.kt-stage{position:relative;width:920px;height:520px;overflow:hidden;border-radius:16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#3a3a38;border:1px solid rgba(0,0,0,0.1);background-color:#EDEAE3;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' fill='%23EDEAE3'/%3E%3Ccircle cx='12' cy='18' r='0.8' fill='%23CFCBC1'/%3E%3Ccircle cx='46' cy='9' r='0.7' fill='%23CFCBC1'/%3E%3Ccircle cx='30' cy='42' r='0.6' fill='%23D6D2C8'/%3E%3Ccircle cx='55' cy='52' r='0.8' fill='%23CFCBC1'/%3E%3Ccircle cx='8' cy='55' r='0.6' fill='%23D6D2C8'/%3E%3C/svg%3E");}
+.kt-hand{font-family:'Gloria Hallelujah',cursive;}
+.kt-top{position:relative;display:flex;align-items:center;gap:12px;height:48px;padding:0 18px;background:rgba(255,255,255,0.5);border-bottom:1px solid rgba(0,0,0,0.08);z-index:30;}
+.kt-brand{font-family:'Gloria Hallelujah',cursive;font-size:22px;}
+.kt-tab{font-size:13px;color:#8a8782;padding:6px 11px;border-radius:9px;border:1px solid transparent;}
+.kt-tab.on{color:#3a3a38;background:#fff;border-color:rgba(0,0,0,0.08);}
+.kt-card{position:absolute;width:124px;height:150px;perspective:760px;}
+.kt-flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s;}
+.kt-flip.flipped{transform:rotateY(180deg);}
+.kt-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#fff;border:1px solid rgba(0,0,0,0.1);border-radius:3px;padding:8px;box-shadow:0 6px 14px rgba(0,0,0,0.13);overflow:hidden;display:flex;flex-direction:column;}
+.kt-back{transform:rotateY(180deg);background:#FBF8F1;gap:3px;}
+.kt-photo{flex:1;border-radius:2px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:30px;}
+.kt-front{transition:filter .8s ease,opacity .8s ease;}
+.kt-front.faded{filter:sepia(.95) saturate(.4) brightness(1.03);opacity:.6;}
+.kt-cap{margin-top:5px;display:flex;align-items:baseline;justify-content:space-between;gap:5px;}
+.kt-nm{font-family:'Gloria Hallelujah',cursive;font-size:16px;}
+.kt-dy{font-family:'Gloria Hallelujah',cursive;font-size:12px;color:#8a8782;}
+.kt-bn{font-family:'Gloria Hallelujah',cursive;font-size:15px;}
+.kt-br{font-family:'Gloria Hallelujah',cursive;font-size:12px;color:#5a5a57;}
+.kt-pin{position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:13px;height:13px;border-radius:50%;border:1px solid rgba(0,0,0,0.18);z-index:3;}
+.kt-flag{position:absolute;top:5px;right:-7px;background:#F4C0D1;color:#72243E;border-radius:8px;font-size:10px;padding:2px 6px;z-index:4;}
+.kt-ripple{position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;background:rgba(127,119,221,0.35);opacity:0;z-index:5;pointer-events:none;}
+.kt-ripple.go{animation:ktRipple .6s ease-out;}
+@keyframes ktRipple{0%{opacity:.5;transform:scale(.3);}100%{opacity:0;transform:scale(1.6);}}
+.kt-dim{position:absolute;inset:0;background:rgba(40,38,34,0.28);opacity:0;visibility:hidden;transition:opacity .35s;z-index:40;}
+.kt-dim.on{opacity:1;visibility:visible;}
+.kt-modal{position:absolute;left:50%;top:30px;width:392px;transform:translateX(-50%) scale(.96);opacity:0;visibility:hidden;transition:opacity .3s,transform .3s;background:#E9E6DF;border-radius:16px;box-shadow:0 22px 50px rgba(0,0,0,0.3);padding:14px 16px 16px;z-index:50;}
+.kt-modal.on{opacity:1;visibility:visible;transform:translateX(-50%) scale(1);}
+.kt-x{position:absolute;top:10px;right:14px;color:#9a978f;font-size:18px;}
+.kt-mphoto{height:140px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:46px;background:#AFA9EC;color:#26215C;}
+.kt-mname{font-family:'Gloria Hallelujah',cursive;font-size:26px;margin:10px 0 8px;}
+.kt-meta{font-size:13px;color:#54524d;display:flex;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
+.kt-meta b{color:#2f2e2b;}
+.kt-bday{font-size:13px;color:#2f2e2b;margin-bottom:10px;}
+.kt-box{background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:10px;padding:9px 12px;font-size:13px;color:#9a978f;margin-bottom:8px;}
+.kt-lbl{font-size:12px;color:#7a7872;margin:2px 0 5px;}
+.kt-ta{background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:10px;padding:9px 12px;font-size:13px;color:#9a978f;min-height:42px;margin-bottom:10px;}
+.kt-btns{display:flex;gap:9px;margin-bottom:8px;}
+.kt-b{border-radius:11px;padding:9px 12px;font-size:13px;font-weight:500;border:1px solid rgba(0,0,0,0.1);background:#fff;color:#3a3a38;transition:transform .12s,filter .12s;}
+.kt-b.green{background:#A9CE6F;border-color:#97C459;color:#173404;}
+.kt-b.pressed{transform:scale(.95);filter:brightness(1.07);}
+.kt-note{font-size:12px;color:#9a978f;font-style:italic;margin-bottom:10px;}
+.kt-foot{display:flex;gap:9px;}
+.kt-foot .kt-b.rm{color:#7a2a2a;border-color:#d8b3b3;}
+.kt-coming{position:absolute;right:26px;top:78px;width:340px;background:#fff;border:1px solid rgba(0,0,0,0.1);border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,0.14);padding:16px 18px;transform:translateX(130%);transition:transform .5s ease;z-index:35;}
+.kt-coming.on{transform:translateX(0);}
+.kt-coming h4{font-family:'Gloria Hallelujah',cursive;font-weight:400;font-size:22px;margin-bottom:12px;}
+.kt-row{display:flex;align-items:center;gap:11px;border:1px solid rgba(0,0,0,0.08);border-radius:11px;padding:9px 12px;margin-bottom:9px;}
+.kt-mini{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600;}
+.kt-row .what{font-size:13px;}
+.kt-row .when{font-size:12px;color:#8a8782;}
+.kt-row .cnt{margin-left:auto;font-family:'Gloria Hallelujah',cursive;font-size:16px;color:#7F77DD;white-space:nowrap;}
+.kt-cursor{position:absolute;left:0;top:0;width:26px;height:26px;z-index:60;filter:drop-shadow(0 1px 1px rgba(0,0,0,0.3));transition:transform .85s cubic-bezier(.4,0,.2,1);}
+.kt-cursor.click{transition:transform .12s;}
+.kt-capline{position:absolute;left:24px;bottom:20px;z-index:45;}
+.kt-capline span{font-family:'Gloria Hallelujah',cursive;font-size:21px;color:#3a3a38;opacity:0;transition:opacity .4s;}
+.kt-capline span.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="kt-wrap"><div class="kt-fit"><div class="kt-stage" id="ktStage">
+  <div class="kt-top">
+    <span class="kt-brand">keep in touch</span>
+    <span class="kt-tab on" id="tabPeople">people</span>
+    <span class="kt-tab" id="tabComing">coming up</span>
+  </div>
+
+  <div class="kt-card" id="cardNina" style="left:120px;top:120px;transform:rotate(-3deg);">
+    <span class="kt-pin" style="background:#D85A30;"></span>
+    <div class="kt-flip" id="ninaFlip">
+      <div class="kt-face kt-front">
+        <div class="kt-photo" style="background:#F0997B;color:#4A1B0C;">N</div>
+        <div class="kt-cap"><span class="kt-nm">Nina</span><span class="kt-dy">4 days</span></div>
+      </div>
+      <div class="kt-face kt-back">
+        <div class="kt-bn">Nina</div>
+        <div class="kt-br">last talked 4 days</div>
+        <div class="kt-br">💬 texted 4 days</div>
+        <div class="kt-br">📞 called 2 weeks</div>
+        <div class="kt-br kt-hand" style="color:#8a8782;">“catch up soon”</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kt-card" style="left:360px;top:150px;transform:rotate(3deg);">
+    <span class="kt-pin" style="background:#BA7517;"></span>
+    <span class="kt-flag">🎂 4d</span>
+    <div class="kt-flip">
+      <div class="kt-face kt-front">
+        <div class="kt-photo" style="background:#EF9F27;color:#412402;">P</div>
+        <div class="kt-cap"><span class="kt-nm">Priya</span><span class="kt-dy">5 days</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kt-card" id="cardDev" style="left:610px;top:300px;transform:rotate(-2deg);">
+    <span class="kt-pin" style="background:#888780;"></span>
+    <div class="kt-ripple" id="devRipple"></div>
+    <div class="kt-flip">
+      <div class="kt-face kt-front faded" id="devFront">
+        <div class="kt-photo" style="background:#AFA9EC;color:#26215C;">D</div>
+        <div class="kt-cap"><span class="kt-nm">Dev</span><span class="kt-dy" id="devDay">88 days</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kt-dim" id="dim"></div>
+
+  <div class="kt-modal" id="modal">
+    <span class="kt-x">✕</span>
+    <div class="kt-mphoto">D</div>
+    <div class="kt-mname">Dev</div>
+    <div class="kt-meta">
+      <span>last talked <b id="mLast">88 days</b></span>
+      <span id="mText">💬 no texts yet</span>
+      <span>📞 no calls yet</span>
+    </div>
+    <div class="kt-bday">🎂 May 6 · in 311 days</div>
+    <div class="kt-box">no plans set — add one in edit</div>
+    <div class="kt-lbl">what did you talk about?</div>
+    <div class="kt-ta">quick note to remember…</div>
+    <div class="kt-btns">
+      <span class="kt-b green" id="btnTexted">💬 texted today</span>
+      <span class="kt-b green">📞 called today</span>
+      <span class="kt-b">just add a note</span>
+    </div>
+    <div class="kt-note">No notes yet. Add the first one above.</div>
+    <div class="kt-foot">
+      <span class="kt-b">connect to…</span>
+      <span class="kt-b">edit</span>
+      <span class="kt-b rm">remove</span>
+    </div>
+  </div>
+
+  <div class="kt-coming" id="coming">
+    <h4>coming up</h4>
+    <div class="kt-row">
+      <div class="kt-mini" style="background:#ED93B1;color:#4B1528;">M</div>
+      <div><div class="what">🎂 Maya's birthday</div><div class="when">May 6</div></div>
+      <div class="cnt">in 4 days</div>
+    </div>
+    <div class="kt-row">
+      <div class="kt-mini" style="background:#EF9F27;color:#412402;">P</div>
+      <div><div class="what">📅 dinner with Priya</div><div class="when">this week</div></div>
+      <div class="cnt">in 3 days</div>
+    </div>
+  </div>
+
+  <div class="kt-capline"><span id="cap"></span></div>
+
+  <svg class="kt-cursor" id="cursor" viewBox="0 0 24 24" fill="#fff" stroke="#222" stroke-width="1.5"><path d="M4 2 L4 18 L8 14 L11 21 L14 20 L11 13 L17 13 Z"/></svg>
+</div></div></div>
+<script>
+(function(){
+  var fit=document.querySelector('.kt-fit'),stage=document.getElementById('ktStage');
+  window.__ktScale=1;
+  function scale(){var w=fit.parentElement.clientWidth;var s=Math.min(1,w/920);window.__ktScale=s;fit.style.transform='scale('+s+')';fit.parentElement.style.height=(520*s)+'px';}
+  window.addEventListener('resize',scale);scale();
+
+  var cursor=document.getElementById('cursor');
+  function moveXY(x,y){cursor.classList.remove('click');cursor.style.transform='translate('+(x-3)+'px,'+(y-2)+'px)';}
+  function moveTo(el){var sr=stage.getBoundingClientRect(),r=el.getBoundingClientRect(),s=window.__ktScale||1;moveXY((r.left+r.width/2-sr.left)/s,(r.top+r.height/2-sr.top)/s);}
+  function click(){cursor.classList.add('click');var t=cursor.style.transform;cursor.style.transform=t+' scale(.8)';setTimeout(function(){cursor.style.transform=t;},140);}
+
+  var cap=document.getElementById('cap');
+  function setCap(t){cap.classList.remove('show');setTimeout(function(){cap.textContent=t;cap.classList.add('show');},180);}
+
+  var ninaFlip=document.getElementById('ninaFlip'),devFront=document.getElementById('devFront'),devDay=document.getElementById('devDay'),
+      ripple=document.getElementById('devRipple'),dim=document.getElementById('dim'),modal=document.getElementById('modal'),
+      mLast=document.getElementById('mLast'),mText=document.getElementById('mText'),btnTexted=document.getElementById('btnTexted'),
+      coming=document.getElementById('coming'),tabPeople=document.getElementById('tabPeople'),tabComing=document.getElementById('tabComing'),
+      cardDev=document.getElementById('cardDev'),cardNina=document.getElementById('cardNina');
+
+  var timers=[];
+  function at(ms,fn){timers.push(setTimeout(fn,ms));}
+  function clearAll(){timers.forEach(clearTimeout);timers=[];}
+
+  function reset(){
+    ninaFlip.classList.remove('flipped');
+    devFront.classList.add('faded');devDay.textContent='88 days';
+    mLast.textContent='88 days';mText.textContent='💬 no texts yet';
+    btnTexted.classList.remove('pressed');
+    modal.classList.remove('on');dim.classList.remove('on');coming.classList.remove('on');
+    tabPeople.classList.add('on');tabComing.classList.remove('on');
+    moveXY(440,470);cap.classList.remove('show');
+  }
+
+  function play(){
+    clearAll();reset();
+    at(300,function(){setCap('every friend is a polaroid on your board');});
+    at(800,function(){moveTo(cardNina);});
+    at(1700,function(){ninaFlip.classList.add('flipped');setCap('hover a card to flip it for the details');});
+    at(3400,function(){ninaFlip.classList.remove('flipped');});
+    at(3800,function(){moveTo(cardDev);});
+    at(4650,function(){click();ripple.classList.remove('go');void ripple.offsetWidth;ripple.classList.add('go');});
+    at(4950,function(){dim.classList.add('on');modal.classList.add('on');setCap('click a card to open it');});
+    at(6300,function(){moveTo(btnTexted);});
+    at(7150,function(){click();btnTexted.classList.add('pressed');mLast.textContent='today';mText.textContent='💬 texted today';setCap('press “texted today” to catch up');});
+    at(8600,function(){modal.classList.remove('on');dim.classList.remove('on');});
+    at(9100,function(){devFront.classList.remove('faded');devDay.textContent='today';setCap('and they come back to full colour');});
+    at(10600,function(){moveTo(tabComing);});
+    at(11150,function(){tabPeople.classList.remove('on');tabComing.classList.add('on');coming.classList.add('on');setCap('see whose birthday and plans are coming up');});
+    at(13600,function(){coming.classList.remove('on');});
+    at(14200,function(){play();});
+  }
+  setTimeout(play,400);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "name": "keep-in-touch",
+  "version": "0.1.0",
+  "description": "A local desktop board for keeping in touch with the people you care about.",
+  "main": "main.js",
+  "author": "Chaitali Mandavia",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.chaitali.keepintouch",
+    "productName": "Keep in Touch",
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "styles.css",
+      "app.js",
+      "fonts/**"
+    ],
+    "mac": { "category": "public.app-category.lifestyle", "target": ["dmg"] },
+    "win": { "target": ["nsis"] },
+    "linux": { "target": ["AppImage"] }
+  }
+}

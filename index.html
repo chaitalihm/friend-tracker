@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keep in Touch</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">keep in touch</div>
+    <nav class="tabs">
+      <button class="tab is-active" data-view="board"><span class="ti">📌</span> people</button>
+      <button class="tab" data-view="birthdays"><span class="ti">🎂</span> coming up</button>
+    </nav>
+    <div class="topbar-actions">
+      <button id="tidyBtn" class="btn-soft">tidy by oldest</button>
+      <button id="addBtn" class="btn-primary">+ add someone</button>
+    </div>
+  </header>
+
+  <main id="viewBoard" class="view is-active">
+    <div id="boardScroll" class="board-scroll">
+      <div id="board" class="board">
+        <svg id="threads" class="threads"></svg>
+        <!-- polaroids injected here -->
+      </div>
+    </div>
+    <div id="boardEmpty" class="empty hidden">
+      <p>Your board is empty.</p>
+      <p class="empty-sub">Add the people you want to stay close to, and watch the quiet ones fade.</p>
+      <button class="btn-primary" data-add>+ add your first person</button>
+    </div>
+  </main>
+
+  <main id="viewBirthdays" class="view">
+    <div class="birthday-wrap">
+      <h2 class="bday-title">coming up</h2>
+      <div id="birthdayList" class="birthday-list"></div>
+      <div id="birthdayEmpty" class="empty hidden">
+        <p>Nothing coming up yet.</p>
+        <p class="empty-sub">Add a birthday or a plan to see someone, and it will show up here with a countdown.</p>
+      </div>
+    </div>
+  </main>
+
+  <div id="modalRoot"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

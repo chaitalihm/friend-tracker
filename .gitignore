@@ -1,0 +1,21 @@
+# dependencies (machine-specific, never commit)
+node_modules/
+
+# build output
+dist/
+build/
+out/
+
+# logs and local env
+*.log
+npm-debug.log*
+.env
+.env.local
+
+# os files
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/
