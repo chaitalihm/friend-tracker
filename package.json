@@ -1,6 +1,6 @@
 {
   "name": "keep-in-touch",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A local desktop board for keeping in touch with the people you care about.",
   "main": "main.js",
   "author": "Chaitali Mandavia",
@@ -24,8 +24,21 @@
       "app.js",
       "fonts/**"
     ],
-    "mac": { "category": "public.app-category.lifestyle", "target": ["dmg"] },
-    "win": { "target": ["nsis"] },
-    "linux": { "target": ["AppImage"] }
+    "mac": {
+      "category": "public.app-category.lifestyle",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ]
+    }
   }
 }
