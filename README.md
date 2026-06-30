@@ -28,7 +28,7 @@ Open it and you are done. The apps are not code signed yet, so the first time yo
 You need [Node.js](https://nodejs.org) installed. Then:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/keep-in-touch.git
+git clone https://github.com/chaitalihm/keep-in-touch.git
 cd keep-in-touch
 npm install
 npm start
